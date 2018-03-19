@@ -113,7 +113,7 @@ TEST(SEGMENT_TREE, GET_THREE){
 
   segTree.setValue(50, 4);
 
-  int val = segTree.getSumValues(0, 100);
+  int val = segTree.getMinValue(0, 100);
 
   EXPECT_EQ(val, 4);
 }//*/
@@ -125,7 +125,7 @@ TEST(SEGMENT_TREE, GET_FOUR){
   segTree.setValue(50, 4);
   segTree.setValue(26, 5);
 
-  int val = segTree.getSumValues(0, 100);
+  int val = segTree.getMinValue(0, 100);
 
   EXPECT_EQ(val, 9);
 }//*/
@@ -146,7 +146,7 @@ TEST(SEGMENT_TREE, GET_EMPTY_TWO){
   segTree.setValue(50, 4);
   segTree.setValue(26, 5);
 
-  int val = segTree.getSumValues(27, 49);
+  int val = segTree.getMinValue(27, 49);
 
   EXPECT_EQ(val, 0);
 }//*/

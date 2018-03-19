@@ -37,62 +37,50 @@ int main(){
 
   SegmentTree<int, int> *segTreePtr;
   segTreePtr = new SegmentTree<int, int>();
-  segTreePtr->setValue(0, 1);
-  segTreePtr->setValue(1, 1);
-  segTreePtr->setValue(0, 2);
-  segTreePtr->setValue(1, 2);
 
-  int sum1 = segTreePtr->getValue(0);
-  if(sum1 != 2){
-    std::cout << "FAILURE ONE" << std::endl;
-  }
+  segTreePtr->setValue(4, 1);
+  segTreePtr->setValue(2, 2);
+  segTreePtr->setValue(1, 3);
+  segTreePtr->setValue(3, 4);
+  segTreePtr->setValue(6, 5);
+  segTreePtr->setValue(5, 6);
+  segTreePtr->setValue(7, 7);
 
-  int sum2 = segTreePtr->getValue(1);
-  if(sum2 != 2){
-    std::cout << "FAILURE TWO: " << sum2 << std::endl;
-  }
 
-  int sum3 = segTreePtr->getValue(2);
-  if(sum3 != 0){
-    std::cout << "FAILURE THREE" << std::endl;
-  }
+  if(segTreePtr->getValue(1) != 3) std::cout << "FAILURE 01" << std::endl;
+  if(segTreePtr->getValue(2) != 2) std::cout << "FAILURE 02" << std::endl;
+  if(segTreePtr->getValue(3) != 4) std::cout << "FAILURE 03" << std::endl;
+  if(segTreePtr->getValue(4) != 1) std::cout << "FAILURE 04" << std::endl;
+  if(segTreePtr->getValue(5) != 6) std::cout << "FAILURE 05" << std::endl;
+  if(segTreePtr->getValue(6) != 5) std::cout << "FAILURE 06" << std::endl;
+  if(segTreePtr->getValue(7) != 7) std::cout << "FAILURE 07" << std::endl;
 
-  int sum4 = segTreePtr->getSumValues(0, 100);
-  if(sum4 != 4){
-    std::cout << "FAILURE FOUR" << std::endl;
-  }
+
+  if(segTreePtr->getMinValue(1, 2) != 2) std::cout << "FAILURE 08" << std::endl;
+  if(segTreePtr->getMinValue(1, 3) != 2) std::cout << "FAILURE 09" << std::endl;
+  if(segTreePtr->getMinValue(1, 4) != 1) std::cout << "FAILURE 10" << std::endl;
+  if(segTreePtr->getMinValue(1, 5) != 1) std::cout << "FAILURE 11" << std::endl;
+  if(segTreePtr->getMinValue(1, 6) != 1) std::cout << "FAILURE 12" << std::endl;
+  if(segTreePtr->getMinValue(1, 7) != 1) std::cout << "FAILURE 13" << std::endl;
+  if(segTreePtr->getMinValue(2, 3) != 2) std::cout << "FAILURE 14" << std::endl;
+  if(segTreePtr->getMinValue(2, 4) != 1) std::cout << "FAILURE 15" << std::endl;
+  if(segTreePtr->getMinValue(2, 5) != 1) std::cout << "FAILURE 16" << std::endl;
+  if(segTreePtr->getMinValue(2, 6) != 1) std::cout << "FAILURE 17" << std::endl;
+  if(segTreePtr->getMinValue(2, 7) != 1) std::cout << "FAILURE 18" << std::endl;
+  if(segTreePtr->getMinValue(3, 4) != 1) std::cout << "FAILURE 19" << std::endl;
+  if(segTreePtr->getMinValue(3, 5) != 1) std::cout << "FAILURE 20" << std::endl;
+  if(segTreePtr->getMinValue(3, 6) != 1) std::cout << "FAILURE 21" << std::endl;
+  if(segTreePtr->getMinValue(3, 7) != 1) std::cout << "FAILURE 22" << std::endl;
+  if(segTreePtr->getMinValue(4, 5) != 1) std::cout << "FAILURE 23" << std::endl;
+  if(segTreePtr->getMinValue(4, 6) != 1) std::cout << "FAILURE 24" << std::endl;
+  if(segTreePtr->getMinValue(4, 7) != 1) std::cout << "FAILURE 25" << std::endl;
+  if(segTreePtr->getMinValue(5, 6) != 5) std::cout << "FAILURE 26" << std::endl;
+  if(segTreePtr->getMinValue(5, 7) != 5) std::cout << "FAILURE 27" << std::endl;
 
   segTreePtr->printTree();
 
   delete segTreePtr;
 
-  SegmentTree<int, int> segTree;
-  segTree.setValue(0, 1);
-  segTree.setValue(1, 1);
-  segTree.setValue(0, 2);
-  segTree.setValue(1, 2);
-
-  sum1 = segTree.getValue(0);
-  if(sum1 != 2){
-    std::cout << "FAILURE FIVE" << std::endl;
-  }
-
-  sum2 = segTree.getValue(1);
-  if(sum2 != 2){
-    std::cout << "FAILURE SIX: " << sum2 << std::endl;
-  }
-
-  sum3 = segTree.getValue(2);
-  if(sum3 != 0){
-    std::cout << "FAILURE SEVEN" << std::endl;
-  }
-
-  sum4 = segTree.getSumValues(0, 100);
-  if(sum4 != 4){
-    std::cout << "FAILURE EIGHT" << std::endl;
-  }
-
-  segTree.printTree();
 
   return 0;
 }
