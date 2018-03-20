@@ -32,12 +32,15 @@
 //TESTS/////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+using std::cout;
+using std::endl;
 
 int main(){
 
   SegmentTree<int, int> *segTreePtr;
   segTreePtr = new SegmentTree<int, int>();
 
+//set initial values
   segTreePtr->setValue(4, 1);
   segTreePtr->setValue(2, 2);
   segTreePtr->setValue(1, 3);
@@ -46,36 +49,45 @@ int main(){
   segTreePtr->setValue(5, 6);
   segTreePtr->setValue(7, 7);
 
+//re-set them in a different order
+  segTreePtr->setValue(7, 14);
+  segTreePtr->setValue(5, 13);
+  segTreePtr->setValue(6, 12);
+  segTreePtr->setValue(3, 11);
+  segTreePtr->setValue(1, 10);
+  segTreePtr->setValue(2, 9);
+  segTreePtr->setValue(4, 8);
 
-  if(segTreePtr->getValue(1) != 3) std::cout << "FAILURE 01" << std::endl;
-  if(segTreePtr->getValue(2) != 2) std::cout << "FAILURE 02" << std::endl;
-  if(segTreePtr->getValue(3) != 4) std::cout << "FAILURE 03" << std::endl;
-  if(segTreePtr->getValue(4) != 1) std::cout << "FAILURE 04" << std::endl;
-  if(segTreePtr->getValue(5) != 6) std::cout << "FAILURE 05" << std::endl;
-  if(segTreePtr->getValue(6) != 5) std::cout << "FAILURE 06" << std::endl;
-  if(segTreePtr->getValue(7) != 7) std::cout << "FAILURE 07" << std::endl;
+
+  if(segTreePtr->getValue(1) != 10) cout << "FAILURE 01" << endl;
+  if(segTreePtr->getValue(2) != 9 ) cout << "FAILURE 02" << endl;
+  if(segTreePtr->getValue(3) != 11) cout << "FAILURE 03" << endl;
+  if(segTreePtr->getValue(4) != 8 ) cout << "FAILURE 04" << endl;
+  if(segTreePtr->getValue(5) != 13) cout << "FAILURE 05" << endl;
+  if(segTreePtr->getValue(6) != 12) cout << "FAILURE 06" << endl;
+  if(segTreePtr->getValue(7) != 14) cout << "FAILURE 07" << endl;
 
 
-  if(segTreePtr->getMinValue(1, 2) != 2) std::cout << "FAILURE 08" << std::endl;
-  if(segTreePtr->getMinValue(1, 3) != 2) std::cout << "FAILURE 09" << std::endl;
-  if(segTreePtr->getMinValue(1, 4) != 1) std::cout << "FAILURE 10" << std::endl;
-  if(segTreePtr->getMinValue(1, 5) != 1) std::cout << "FAILURE 11" << std::endl;
-  if(segTreePtr->getMinValue(1, 6) != 1) std::cout << "FAILURE 12" << std::endl;
-  if(segTreePtr->getMinValue(1, 7) != 1) std::cout << "FAILURE 13" << std::endl;
-  if(segTreePtr->getMinValue(2, 3) != 2) std::cout << "FAILURE 14" << std::endl;
-  if(segTreePtr->getMinValue(2, 4) != 1) std::cout << "FAILURE 15" << std::endl;
-  if(segTreePtr->getMinValue(2, 5) != 1) std::cout << "FAILURE 16" << std::endl;
-  if(segTreePtr->getMinValue(2, 6) != 1) std::cout << "FAILURE 17" << std::endl;
-  if(segTreePtr->getMinValue(2, 7) != 1) std::cout << "FAILURE 18" << std::endl;
-  if(segTreePtr->getMinValue(3, 4) != 1) std::cout << "FAILURE 19" << std::endl;
-  if(segTreePtr->getMinValue(3, 5) != 1) std::cout << "FAILURE 20" << std::endl;
-  if(segTreePtr->getMinValue(3, 6) != 1) std::cout << "FAILURE 21" << std::endl;
-  if(segTreePtr->getMinValue(3, 7) != 1) std::cout << "FAILURE 22" << std::endl;
-  if(segTreePtr->getMinValue(4, 5) != 1) std::cout << "FAILURE 23" << std::endl;
-  if(segTreePtr->getMinValue(4, 6) != 1) std::cout << "FAILURE 24" << std::endl;
-  if(segTreePtr->getMinValue(4, 7) != 1) std::cout << "FAILURE 25" << std::endl;
-  if(segTreePtr->getMinValue(5, 6) != 5) std::cout << "FAILURE 26" << std::endl;
-  if(segTreePtr->getMinValue(5, 7) != 5) std::cout << "FAILURE 27" << std::endl;
+  if(segTreePtr->getValue(1, 2) != 9 ) cout << "FAILURE 08" << endl;
+  if(segTreePtr->getValue(1, 3) != 9 ) cout << "FAILURE 09" << endl;
+  if(segTreePtr->getValue(1, 4) != 8 ) cout << "FAILURE 10" << endl;
+  if(segTreePtr->getValue(1, 5) != 8 ) cout << "FAILURE 11" << endl;
+  if(segTreePtr->getValue(1, 6) != 8 ) cout << "FAILURE 12" << endl;
+  if(segTreePtr->getValue(1, 7) != 8 ) cout << "FAILURE 13" << endl;
+  if(segTreePtr->getValue(2, 3) != 9 ) cout << "FAILURE 14" << endl;
+  if(segTreePtr->getValue(2, 4) != 8 ) cout << "FAILURE 15" << endl;
+  if(segTreePtr->getValue(2, 5) != 8 ) cout << "FAILURE 16" << endl;
+  if(segTreePtr->getValue(2, 6) != 8 ) cout << "FAILURE 17" << endl;
+  if(segTreePtr->getValue(2, 7) != 8 ) cout << "FAILURE 18" << endl;
+  if(segTreePtr->getValue(3, 4) != 8 ) cout << "FAILURE 19" << endl;
+  if(segTreePtr->getValue(3, 5) != 8 ) cout << "FAILURE 20" << endl;
+  if(segTreePtr->getValue(3, 6) != 8 ) cout << "FAILURE 21" << endl;
+  if(segTreePtr->getValue(3, 7) != 8 ) cout << "FAILURE 22" << endl;
+  if(segTreePtr->getValue(4, 5) != 8 ) cout << "FAILURE 23" << endl;
+  if(segTreePtr->getValue(4, 6) != 8 ) cout << "FAILURE 24" << endl;
+  if(segTreePtr->getValue(4, 7) != 8 ) cout << "FAILURE 25" << endl;
+  if(segTreePtr->getValue(5, 6) != 12) cout << "FAILURE 26" << endl;
+  if(segTreePtr->getValue(5, 7) != 12) cout << "FAILURE 27" << endl;
 
   segTreePtr->printTree();
 
