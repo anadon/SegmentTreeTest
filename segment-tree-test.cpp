@@ -36,58 +36,58 @@
 //TESTS/////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-//*
+/*
 TEST(SEGMENT_TREE, CREATION_ONE){
 
-  SegmentTree<int, int> *segTree;
-  segTree = new SegmentTree<int, int>();
+  SegmentTree<int> *segTree;
+  segTree = new SegmentTree<int>();
   delete segTree;
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, CREATION_TWO){
-  SegmentTree<int, int> segTree;
+  SegmentTree<int> segTree;
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, CREATION_THREE){
 
-  SegmentTree<int, int> *segTree;
-  segTree = new SegmentTree<int, int>(0, 100);
+  SegmentTree<int> *segTree;
+  segTree = new SegmentTree<int>(0, 100);
   delete segTree;
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, CREATION_FOUR){
-  SegmentTree<int, int> segTree(0, 100);
+  SegmentTree<int> segTree(0, 100);
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, SET_ONE){
-  SegmentTree<int, int> segTree;
+  SegmentTree<int> segTree;
 
   segTree.setValue(50, 4);
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, SET_TWO){
-  SegmentTree<int, int> segTree;
+  SegmentTree<int> segTree;
 
   segTree.setValue(50, 4);
   segTree.setValue(26, 4);
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, SET_OVER){
-  SegmentTree<int, int> segTree;
+  SegmentTree<int> segTree;
 
   segTree.setValue(50, 4);
   segTree.setValue(50, 5);
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, GET_ONE){
-  SegmentTree<int, int> segTree;
+  SegmentTree<int> segTree;
 
   segTree.setValue(50, 4);
 
@@ -96,9 +96,9 @@ TEST(SEGMENT_TREE, GET_ONE){
   EXPECT_EQ(val, 4);
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, GET_TWO){
-  SegmentTree<int, int> segTree(0, 100);
+  SegmentTree<int> segTree(0, 100);
 
   segTree.setValue(50, 4);
 
@@ -107,9 +107,9 @@ TEST(SEGMENT_TREE, GET_TWO){
   EXPECT_EQ(val, 4);
 }//*/
 
-//*
+/*
 TEST(SEGMENT_TREE, GET_THREE){
-  SegmentTree<int, int> segTree(0, 100);
+  SegmentTree<int> segTree(0, 100);
 
   segTree.setValue(50, 4);
 
