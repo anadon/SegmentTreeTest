@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include<vector>
+#include<cstddef>
 
 #ifdef SEGMENT_TREE_DEBUG
 #include<iostream>
@@ -22,10 +24,8 @@
 //
 // Implemented below is a by default infinite size segment tree (bounds can be
 // added), get, and set functions.
-//
-// NOTE: KeyType and ValueType must be numerical, and be able to be set with 0 .
 ////////////////////////////////////////////////////////////////////////////////
-template<typename KeyType, typename ValueType>
+template<typename ValueType>
 class SegmentTree{
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +33,7 @@ class SegmentTree{
 ////////////////////////////////////////////////////////////////////////////////
   class node{
   public:
-    KeyType lowerKey, upperKey;
+    size_t lowerKey, upperKey;
     ValueType value;
     node *left = nullptr, *right = nullptr;
 
@@ -43,10 +43,10 @@ class SegmentTree{
     }
   };
 
-  void setValueInternal(KeyType targetKey, ValueType newValue, node **current);
+  void setValueInternal(size_t targetKey, ValueType newValue, node **current);
 
-  ValueType getValueInternal(const KeyType &lowerKey,
-              const KeyType &upperKey, const node *current, bool &usableResult);
+  ValueType getValueInternal(const size_t lowerKey,
+              const size_t upperKey, const node *current, bool &usableResult);
 
 #ifdef SEGMENT_TREE_DEBUG
   void printTreeInternal(node *current);
@@ -54,26 +54,21 @@ class SegmentTree{
 
   ValueType (*segTreeFunc)(ValueType, ValueType);
   node *root;
-  KeyType *lb, *ub;
+  size_t maxIndex;
 
 public:
 
-  SegmentTree(ValueType (*userFunc)(ValueType, ValueType)
-    = [] (ValueType left, ValueType right)
-    -> ValueType { return left < right ? left : right; });
-
-  SegmentTree(KeyType lowerBound, KeyType upperBound,
-    ValueType (*userFunc)(ValueType, ValueType)
+  SegmentTree(std::vector<ValueType> data, ValueType (*userFunc)(ValueType, ValueType)
     = [] (ValueType left, ValueType right)
     -> ValueType { return left < right ? left : right; });
 
   ~SegmentTree();
 
-  void setValue(KeyType targetKey, ValueType newValue);
+  void setValue(size_t targetKey, ValueType newValue);
 
-  ValueType getValue(const KeyType &lowerKey, const KeyType &upperKey);
+  ValueType getValue(const size_t lowerKey, const size_t upperKey);
 
-  ValueType getValue(const KeyType &key);
+  ValueType getValue(const size_t key);
 
 #ifdef SEGMENT_TREE_DEBUG
   void printTree();
@@ -85,13 +80,10 @@ public:
 // Take a Key and a Value and set the key in the tree to that value.  Create
 // the required node if needed.
 ////////////////////////////////////////////////////////////////////////////////
-template<typename KeyType, typename ValueType>
-void SegmentTree<KeyType, ValueType>::setValue(KeyType targetKey,
-                                                            ValueType newValue){
-
-  if(lb != nullptr && *lb > targetKey) throw 2;
-  if(ub != nullptr && *ub < targetKey) throw 3;
-  setValueInternal(targetKey, newValue, &root);
+template<typename ValueType>
+void SegmentTree<ValueType>::setValue(size_t targetKey, ValueType newVal){
+  if(maxIndex <= targetKey) return; //throw 3;
+  setValueInternal(targetKey, newVal, &root);
 }
 
 
@@ -100,23 +92,21 @@ void SegmentTree<KeyType, ValueType>::setValue(KeyType targetKey,
 // keys in that range.
 // TODO: these throws should use full and proper exceptions.
 ////////////////////////////////////////////////////////////////////////////////
-template<typename KeyType, typename ValueType>
-ValueType SegmentTree<KeyType, ValueType>::getValue(const KeyType &lowerKey,
-                                                       const KeyType &upperKey){
+template<typename ValueType>
+ValueType SegmentTree<ValueType>::getValue(const size_t lowerKey,
+                                                    const size_t upperKey){
   if(lowerKey > upperKey) throw 1;
-  if(lb != nullptr && *lb > lowerKey) throw 2;
-  if(ub != nullptr && *ub < upperKey) throw 3;
+  if(maxIndex <= upperKey) throw 3;
   bool usableResult = false;
   ValueType minVal;
   minVal = getValueInternal(lowerKey, upperKey, root, usableResult);
   if(usableResult){
     return minVal;
-  }else{
-    // NOTE: depending on use case, this should be an exception.  Using 127
-    // because it is the highest value a signed byte can hold, so everything can
-    // use it without wrapping for truncating.
-    return 127;
   }
+  // NOTE: depending on use case, this should be an exception.  Using 127
+  // because it is the highest value a signed byte can hold, so everything can
+  // use it without wrapping for truncating.
+  throw 127;
 }
 
 
@@ -124,20 +114,9 @@ ValueType SegmentTree<KeyType, ValueType>::getValue(const KeyType &lowerKey,
 // Given a key, find the value for the corresponding node.
 // TODO: these throws should use full and proper exceptions.
 ////////////////////////////////////////////////////////////////////////////////
-template<typename KeyType, typename ValueType>
-ValueType SegmentTree<KeyType, ValueType>::getValue(const KeyType &key){
-  if(lb != nullptr && *lb > key) throw 2;
-  if(ub != nullptr && *ub < key) throw 3;
-  bool usableResult = false;
-  ValueType minVal = getValueInternal(key, key, root, usableResult);
-  if(usableResult){
-    return minVal;
-  }else{
-    // NOTE: depending on use case, this should be an exception.  Using 127
-    // because it is the highest value a signed byte can hold, so everything can
-    // use it without wrapping for truncating.
-    return 127;
-  }
+template<typename ValueType>
+ValueType SegmentTree<ValueType>::getValue(const size_t key){
+  return getValue(key, key);
 }
 
 
@@ -146,8 +125,8 @@ ValueType SegmentTree<KeyType, ValueType>::getValue(const KeyType &key){
 // create the node and set its key and value to the given values.
 // TODO: add rebalancing
 ////////////////////////////////////////////////////////////////////////////////
-template<typename KeyType, typename ValueType>
-void SegmentTree<KeyType, ValueType>::setValueInternal(KeyType targetKey,
+template<typename ValueType>
+void SegmentTree<ValueType>::setValueInternal(size_t targetKey,
                                             ValueType newValue, node **current){
   //insert new node at end, possibly root
   if(*current == nullptr){
@@ -219,11 +198,10 @@ void SegmentTree<KeyType, ValueType>::setValueInternal(KeyType targetKey,
 ////////////////////////////////////////////////////////////////////////////////
 //Internals to get the sum of values whose keys fall in a given range.
 ////////////////////////////////////////////////////////////////////////////////
-template<typename KeyType, typename ValueType>
-ValueType SegmentTree<KeyType, ValueType>::getValueInternal(
-         const KeyType &lowerKey, const KeyType &upperKey, const node *current,
+template<typename ValueType>
+ValueType SegmentTree<ValueType>::getValueInternal(
+    const size_t lowerKey, const size_t upperKey, const node *current,
                                                             bool &usableResult){
-
   if(current == nullptr){
     usableResult = false;
     return 0;
@@ -231,7 +209,7 @@ ValueType SegmentTree<KeyType, ValueType>::getValueInternal(
 
   //check entirely in range, out of range, or partially in range cases
 
-  //entirely
+  //entirely in range
   if(lowerKey <= current->lowerKey && current->upperKey <= upperKey){
     usableResult = true;
     return current->value;
@@ -246,22 +224,22 @@ ValueType SegmentTree<KeyType, ValueType>::getValueInternal(
   //partially
   if(current->lowerKey <= upperKey || lowerKey <= current->upperKey ){
     bool canUseLeft = true;
-    ValueType leftMin;
-    leftMin = getValueInternal(lowerKey, upperKey, current->left, canUseLeft);
+    ValueType leftVal;
+    leftVal = getValueInternal(lowerKey, upperKey, current->left, canUseLeft);
 
     bool canUseRight = true;
-    ValueType rightMin;
-    rightMin = getValueInternal(lowerKey, upperKey, current->right, canUseRight);
+    ValueType rightVal;
+    rightVal = getValueInternal(lowerKey, upperKey, current->right, canUseRight);
 
     if(canUseLeft && canUseRight){
       usableResult = true;
-      return leftMin < rightMin ? leftMin : rightMin;
+      return segTreeFunc(leftVal, rightVal);
     }else if(canUseLeft){
       usableResult = true;
-      return leftMin;
+      return leftVal;
     }else if(canUseRight){
       usableResult = true;
-      return rightMin;
+      return rightVal;
     }else{
       usableResult = false;
       return 0;
@@ -270,42 +248,27 @@ ValueType SegmentTree<KeyType, ValueType>::getValueInternal(
 
   //should never reach here
   usableResult = false;
-  return 255;
+  throw 127;
 }
 
 
 //Unbounded constructor
-template<typename KeyType, typename ValueType>
-SegmentTree<KeyType, ValueType>::SegmentTree(
+template<typename ValueType>
+SegmentTree<ValueType>::SegmentTree(std::vector<ValueType> data,
                                    ValueType (*userFunc)(ValueType, ValueType)){
   root = nullptr;
-  lb = ub = nullptr;
+  maxIndex = data.size();
   segTreeFunc = userFunc;
-}
 
-
-//Bounded constructor
-template<typename KeyType, typename ValueType>
-SegmentTree<KeyType, ValueType>::SegmentTree(KeyType lowerBound,
-               KeyType upperBound, ValueType (*userFunc)(ValueType, ValueType)){
-  root = nullptr;
-
-  lb = new KeyType();
-  *lb = lowerBound;
-
-  ub = new KeyType();
-  *ub = upperBound;
-
-  segTreeFunc = userFunc;
+  for(size_t i = 0; i < data.size(); i++)
+    setValue(i, data[i]);
 }
 
 
 //Deconstructor
-template<typename KeyType, typename ValueType>
-SegmentTree<KeyType, ValueType>::~SegmentTree(){
+template<typename ValueType>
+SegmentTree<ValueType>::~SegmentTree(){
   if(root != nullptr) delete root;
-  if(lb   != nullptr) delete lb;
-  if(ub   != nullptr) delete ub;
 }
 
 
@@ -313,15 +276,15 @@ SegmentTree<KeyType, ValueType>::~SegmentTree(){
 // DEBUGGING FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 #ifdef SEGMENT_TREE_DEBUG
-template<typename KeyType, typename ValueType>
-void SegmentTree<KeyType, ValueType>::printTree(){
+template<typename ValueType>
+void SegmentTree<ValueType>::printTree(){
   printTreeInternal(root);
   std::cout << std::endl;
 }
 
 
-template<typename KeyType, typename ValueType>
-void SegmentTree<KeyType, ValueType>::printTreeInternal(node *current){
+template<typename ValueType>
+void SegmentTree<ValueType>::printTreeInternal(node *current){
   if(current == nullptr){
     return;
   }
