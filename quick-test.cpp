@@ -58,235 +58,237 @@ int main(){
     return 1;
   }
 
+  int failCount = 0;
+
   try{
     if(segTreePtr->getValue(0) != 14){
-      cout << "FAILURE 01" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 01" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(1) != 13 ){
-      cout << "FAILURE 02" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 02" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(2) != 12){
-      cout << "FAILURE 03" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 03" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(3) != 11){
-      cout << "FAILURE 04" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 04" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(4) != 10){
-      cout << "FAILURE 05" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 05" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(5) != 9 ){
-      cout << "FAILURE 05" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 05" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(6) != 8 ){
-      cout << "FAILURE 06" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 06" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
 
   try{
     if(segTreePtr->getValue(0, 1) != 13 ){
-      cout << "FAILURE 08" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 08" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
 
   try{
     if(segTreePtr->getValue(0, 2) != 12 ){
-      cout << "FAILURE 08" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 08" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
 
   try{
     if(segTreePtr->getValue(0, 3) != 11){
-      cout << "FAILURE 08" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 08" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
 
   try{
     if(segTreePtr->getValue(0, 4) != 10){
-      cout << "FAILURE 08" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 08" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
 
   try{
     if(segTreePtr->getValue(0, 5) != 9 ){
-      cout << "FAILURE 08" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 08" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
 
   try{
     if(segTreePtr->getValue(0, 6) != 8 ){
-      cout << "FAILURE 08" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 08" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
 
   try{
     if(segTreePtr->getValue(1, 2) != 12 ){
-      cout << "FAILURE 08" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 08" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(1, 3) != 11 ){
-      cout << "FAILURE 09" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 09" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(1, 4) != 10 ){
-      cout << "FAILURE 10" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 10" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(1, 5) != 9 ){
-      cout << "FAILURE 11" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 11" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(1, 6) != 8 ){
-      cout << "FAILURE 12" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 12" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(2, 3) != 11){
-      cout << "FAILURE 14" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 14" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(2, 4) != 10){
-      cout << "FAILURE 15" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 15" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(2, 5) != 9 ){
-      cout << "FAILURE 16" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 16" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(2, 6) != 8 ){
-      cout << "FAILURE 17" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 17" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(3, 4) != 10){
-      cout << "FAILURE 19" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 19" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(3, 5) != 9 ){
-      cout << "FAILURE 20" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 20" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(3, 6) != 8 ){
-      cout << "FAILURE 21" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 21" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(4, 5) != 9 ){
-      cout << "FAILURE 23" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 23" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(4, 6) != 8 ){
-      cout << "FAILURE 24" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 24" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   try{
     if(segTreePtr->getValue(5, 6) != 8){
-      cout << "FAILURE 26" << endl;
+      cout << "FAILURE " << ++failCount << endl;
     }
   }catch(...){
-    cout << "EXCEPTION 26" << endl;
+    cout << "EXCEPTION " << ++failCount << endl;
   }
 
   segTreePtr->printTree();
