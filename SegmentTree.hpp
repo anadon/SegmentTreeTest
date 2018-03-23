@@ -8,6 +8,7 @@
 
 #include<vector>
 #include<cstddef>
+#include<queue>
 
 #ifdef SEGMENT_TREE_DEBUG
 #include<iostream>
@@ -35,7 +36,24 @@ class SegmentTree{
   public:
     size_t lowerKey, upperKey;
     ValueType value;
-    node *left = nullptr, *right = nullptr;
+    node *left = nullptr, *right = nullptr, *parentNode = nullptr;
+    //char color = 'r';
+
+    node(size_t targetKey, ValueType newValue) :
+    lowerKey(targetKey), upperKey(targetKey), value(newValue) {}
+
+    node(node *leftChild, node *rightChild, ValueType newValue ){
+      left = leftChild;
+      right = rightChild;
+
+      lowerKey = left->lowerKey;
+      upperKey = right->upperKey;
+
+      left->parentNode = this;
+      right->parentNode = this;
+
+      value = newValue;
+    }
 
     ~node(){
       if(left  != nullptr) delete left;
@@ -128,24 +146,6 @@ ValueType SegmentTree<ValueType>::getValue(const size_t key){
 template<typename ValueType>
 void SegmentTree<ValueType>::setValueInternal(size_t targetKey,
                                             ValueType newValue, node **current){
-  //insert new node at end, possibly root
-  if(*current == nullptr){
-    *current = new node();
-    (*current)->lowerKey = targetKey;
-    (*current)->upperKey = targetKey;
-    (*current)->value = newValue;
-    return;
-  }
-
-  // Else, because of how insertions work, this is either a leaf or a parent
-  // with two children.
-
-  if( ((*current)->left != nullptr && (*current)->left == nullptr) ||
-      ((*current)->left == nullptr && (*current)->left != nullptr)){
-    //should never reach here, this is an error state.
-    throw 6;
-  }
-
 
   //update the value in this node, it is a leaf
   if((*current)->lowerKey == targetKey && (*current)->upperKey == targetKey){
@@ -153,40 +153,17 @@ void SegmentTree<ValueType>::setValueInternal(size_t targetKey,
     return;
   }
 
+  if(targetKey < (*current)->lowerKey || (*current)->upperKey < targetKey)
+    return;
 
-  if((*current)->left != nullptr){
-    //parent case, pass along
-    // figure out which side to send the value.  This means finding the right
-    // most node of the left side, or the leftmost node of the right side.
-    // NOTE: this has an insertion bias and results is unfull binary trees
-    node *rml = (*current)->left;
-    while(rml->right != nullptr) rml = rml->right;
-    if(targetKey > rml->upperKey){
-      setValueInternal(targetKey, newValue, &((*current)->right));
-    }else{
-      setValueInternal(targetKey, newValue, &((*current)->left));
-    }
 
-    if((*current)->upperKey < targetKey){
-      (*current)->upperKey = targetKey;
-    }else if((*current)->lowerKey > targetKey){
-      (*current)->lowerKey = targetKey;
-    }
-
-  }else if((*current)->lowerKey > targetKey){
-    //this is a leaf which needs to be promoted to a parent with the new values
-    //going on the left
+  if((*current)->left != nullptr && (*current)->right != nullptr){
     setValueInternal(targetKey, newValue, &((*current)->left));
-    setValueInternal((*current)->upperKey, (*current)->value,
-                                                          &((*current)->right));
-    (*current)->lowerKey = targetKey;
-  }else if((*current)->lowerKey < targetKey){
-    //this is a leaf which needs to be promoted to a parent with the new values
-    //going on the right
-    setValueInternal((*current)->lowerKey, (*current)->value,
-                                                           &((*current)->left));
     setValueInternal(targetKey, newValue, &((*current)->right));
-    (*current)->upperKey = targetKey;
+  }else if((*current)->left != nullptr){
+    setValueInternal(targetKey, newValue, &((*current)->left));
+  }else if((*current)->right != nullptr){
+    setValueInternal(targetKey, newValue, &((*current)->right));
   }
 
   ValueType leftValue  = (*current)->left->value;
@@ -256,12 +233,34 @@ ValueType SegmentTree<ValueType>::getValueInternal(
 template<typename ValueType>
 SegmentTree<ValueType>::SegmentTree(std::vector<ValueType> data,
                                    ValueType (*userFunc)(ValueType, ValueType)){
-  root = nullptr;
   maxIndex = data.size();
   segTreeFunc = userFunc;
+  std::queue<node*> *pullFrom = new std::queue<node*>();
+  std::queue<node*> *pushTo = new std::queue<node*>();
+  std::queue<node*> *swap;
 
   for(size_t i = 0; i < data.size(); i++)
-    setValue(i, data[i]);
+    pushTo->push(new node(i, data[i]));
+
+  while(pushTo->size() > 1){
+    swap = pushTo;
+    pushTo = pullFrom;
+    pullFrom = swap;
+    while(pullFrom->size() >= 2){
+      node *left  = pullFrom->front(); pullFrom->pop();
+      node *right = pullFrom->front(); pullFrom->pop();
+
+      pushTo->push(new node(left, right, segTreeFunc(left->value, right->value)));
+    }
+    if(pullFrom->size()){
+      pushTo->push(pullFrom->front());
+      pullFrom->pop();
+    }
+  }
+  root = pushTo->front();
+
+  delete pushTo;
+  delete pullFrom;
 }
 
 
